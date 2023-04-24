@@ -1,0 +1,23 @@
+<%- include('partials/header.ejs') %>
+
+<% if (error != '') { %>
+    <%= error %>
+<% } else { %>
+<h2 class="page-title">New Job</h2>
+<form action="/apply/save" method="POST">
+    <div class="apply-edit">
+        <div class="apply-name"><input type="text" name="applyName" value="<%= item[0].name %>"></div>
+        <div class="apply-icon-link"><input type="text" name="applyIcon" value="<%= item[0].icon %>"> <img src="<%= item[0].icon %>"></div>
+        <div class="apply-url"><input type="text" name="applyUrl" value="<%= item[0].applyUrl %>"></div>
+        <div class="apply-btn">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-primary" onclick="javascript:location.href='/';">Cancel</button>
+            <input type="hidden" name="applyId" value="<%= item[0]._id %>">
+        </div>
+    </div>
+</form>
+<% } %>
+
+<%- include('partials/footer.ejs') %>
+
+

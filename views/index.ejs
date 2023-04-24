@@ -1,0 +1,82 @@
+
+
+
+    <%- include('partials/header.ejs') %>
+
+    <form action="/q" method="POST" class="search=form" id="searchForm">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" name="searchInput" <% if(search != '') { %> value="<%= search %>" <% } %>>
+      <div class="input-group-append"><button class="btn btn-primary"><i class="fas fa-search"></i></button></div>
+      </div>
+      </form>
+
+
+    <% if(data != null) {data.forEach( item => { %>
+
+      <div class="d-flex flex-row justify-content-between mb-3">
+        <div class="d-flex flex-column p-3">
+          <a href="<%= item.applyUrl %>" target="_blank"><img src="<%= item.icon %>" class="icon-img"></a>
+
+           <% if(loggedIn){%>
+            <div class="mb-1 p-1">
+              
+             <a href="/apply/<%= item._id %>">Edit</a>
+             <!--
+             <a href="/apply/delete/<= item._id %>" class="red" onclick="return confirm('Are you sure you wish to delete?');">Delete</a>
+             -->
+             <a href="/apply/delete/<%= item._id %>" class="red delete-link">Delete</a>
+
+             
+
+
+          
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="completedCheck<%= item._id %>" <% if (item.completed) { %>checked<% } %>>
+                  <label class="form-check-label" for="completedCheck<%= item._id %>" onclick="markAsCompleted('<%= item._id %>')">
+                    Application Completed
+                  </label>
+                  
+                </div>
+              </div>
+
+           <%}%>
+          </div>
+          
+           
+        <div class="apply-code pt-4 pl-4">
+          <a href="<%= item.applyUrl %>" target="_blank">
+            <div><img src="https://www.clipartkey.com/mpngs/m/229-2295602_qr-code-png-images-qr-code-icon-png.png" class="url-img"></div>
+            <span class="mb-2">
+              Apply
+            </span>
+          </a>
+        </div>
+    </div>
+        <!--delete-->
+    <script>
+      $(function() {
+        $('.delete-link').on('click', function(event) {
+          event.preventDefault();
+          var deleteUrl = $(this).attr('href');
+          if (confirm('Are you sure you wish to delete?')) {
+            $.ajax({
+              url: deleteUrl,
+              type: 'DELETE',
+              success: function(result) {
+                alert('Item deleted successfully.');
+                
+              },
+              error: function(error) {
+                alert('There was an error deleting the item.');
+              }
+            });
+          }
+        });
+      });
+      </script>
+      
+  
+
+    <% }); }%>
+
+    <%- include('partials/footer.ejs') %>
